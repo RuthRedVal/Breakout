@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablas de Multiplicar</title>
+    <!-- Cargar Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white p-8 rounded shadow-lg text-center max-w-xs">
+        <h1 class="text-2xl font-bold text-blue-600 mb-4">¡Practica las Tablas!</h1>
+        <div id="exercise" class="text-xl font-medium mb-4"></div>
+        <input id="answer" type="number" class="border-2 border-blue-400 p-2 rounded w-full text-center" placeholder="Tu respuesta aquí">
+        <button onclick="checkAnswer()" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Comprobar</button>
+        <div id="feedback" class="mt-4 text-lg"></div>
+        <div class="mt-4">
+            <span class="font-bold">Aciertos:</span> <span id="correctCount">0</span>
+            <span class="font-bold ml-4">Errores:</span> <span id="wrongCount">0</span>
+        </div>
+        <button onclick="resetGame()" class="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Reiniciar</button>
+    </div>
+
+    <script>
+        let correctCount = 0;
+        let wrongCount = 0;
+        let currentExercise = {};
+
+        function generateExercise() {
+            const num1 = Math.floor(Math.random() * 9) + 1;
+            const num2 = Math.floor(Math.random() * 9) + 1;
+            currentExercise = { num1, num2, answer: num1 * num2 };
+            document.getElementById('exercise').textContent = `${num1} x ${num2}`;
+            document.getElementById('answer').value = '';
+            document.getElementById('feedback').textContent = '';
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const feedbackElement = document.getElementById('feedback');
+            if (userAnswer === currentExercise.answer) {
+                feedbackElement.textContent = '¡Correcto! 🎉';
+                feedbackElement.className = 'text-green-500 mt-4';
+                correctCount++;
+            } else {
+                feedbackElement.textContent = 'Inténtalo de nuevo. 😅';
+                feedbackElement.className = 'text-red-500 mt-4';
+                wrongCount++;
+            }
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('wrongCount').textContent = wrongCount;
+            generateExercise();
+        }
+
+        function resetGame() {
+            correctCount = 0;
+            wrongCount = 0;
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('wrongCount').textContent = wrongCount;
+            generateExercise();
+        }
+
+        // Inicializar el primer ejercicio
+        generateExercise();
+    </script>
+</body>
+</html>
